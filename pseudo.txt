@@ -1,0 +1,210 @@
+Algoritmo tpC es
+    ambiente
+        voto = registro de
+            DNI:N(8);
+            prox: puntero a voto;
+        Fin_Reg;
+        p,q: puntero a voto;
+        p,i,aux: N(1);
+        DNIE: N(8);
+        lista = registro
+            partido: AN(30);
+            cantVotos: N(3)
+        fin_registro;
+        votos : arreglo[1..4] de lista;
+        pos: 1..4;
+        opcion: 1..3;
+        i: entero;
+        Dia: 1..31;
+        Mes: 1..12;
+        Anio: N(4);
+        hora: 1..24;
+        
+    	Subacciones
+		Procedimiento Ver_Listas() es;
+			Escribir('');
+			Escribir(' ___________________________________________________________________________ ');
+			Escribir('|                           |                                               |');			
+			Escribir('|  Lista: Nº1               |              Fecha: ',Dia,'/',Mes,'/',Anio,'  |');			
+			Escribir('|___________________________|_______________________________________________|');
+			Escribir('|                                                                           |');			
+			Escribir('|                                 PARTIDO:                                  |');
+			Escribir('|                             CELESTE Y BLANCA                              |');			
+			Escribir('|___________________________________________________________________________|');			
+			Escribir('|                                                                           |');				
+			Escribir('|                              CANDIDATO/OS:                                |');
+			Escribir('|                               Candidato 1                                 |');			
+			Escribir('|                                                                           |');
+			Escribir('|___________________________________________________________________________|');
+			Escribir('');
+			Escribir(' ___________________________________________________________________________ ');
+			Escribir('|                           |                                               |');			
+			Escribir('|  Lista: Nº2               |              Fecha: ',Dia,'/',Mes,'/',Anio,'  |');			
+			Escribir('|___________________________|_______________________________________________|');
+			Escribir('|                                                                           |');
+			Escribir('|                                 PARTIDO:                                  |');			
+			Escribir('|                           LOS FUTUROS GRADUADOS                           |');			
+			Escribir('|___________________________________________________________________________|');			
+			Escribir('|                                                                           |');		
+			Escribir('|                              CANDIDATO/OS:                                |');
+			Escribir('|                               Candidato 2                                 |');
+			Escribir('|                                                                           |');
+			Escribir('|___________________________________________________________________________|');
+			Escribir('');
+			Escribir(' ___________________________________________________________________________ ');
+			Escribir('|                           |                                               |');			
+			Escribir('|  Lista: Nº3               |              Fecha: ',Dia,'/',Mes,'/',Anio,'  |');			
+			Escribir('|___________________________|_______________________________________________|');
+			Escribir('|                                                                           |');
+			Escribir('|                                 PARTIDO:                                  |');			
+			Escribir('|                             LOS RECURSANTES                               |');			
+			Escribir('|___________________________________________________________________________|');			
+			Escribir('|                                                                           |');
+			Escribir('|                              CANDIDATO/OS:                                |');
+			Escribir('|                               Candidato 3                                 |');				
+			Escribir('|                                                                           |');
+			Escribir('|___________________________________________________________________________|');
+			Escribir('');
+			Escribir(' ___________________________________________________________________________ ');
+			Escribir('|                           |                                               |');			
+			Escribir('|  Lista: Nº4               |              Fecha: ',Dia,'/',Mes,'/',Anio,'  |');			
+			Escribir('|___________________________|_______________________________________________|');
+			Escribir('|                                                                           |');
+			Escribir('|                                 PARTIDO:                                  |');			
+			Escribir('|                           ACCION ESTUDIANTIL                              |');			
+			Escribir('|___________________________________________________________________________|');			
+			Escribir('|                                                                           |');			
+			Escribir('|                              CANDIDATO/OS:                                |');		
+			Escribir('|                               Candidato 4                                 |');
+            Escribir('|                                                                           |');
+			Escribir('|___________________________________________________________________________|');
+			Escribir('');
+		Fin_Sub;
+        
+        Procedimiento ordenarArreglo() es
+            Para p:=1 hasta 3 hacer
+                Para i:=1 hasta 3-p hacer
+                    Si (votos[i] < votos[i+1]) entonces
+                        aux:=votos[i];
+                        votos:=votos[i+1];
+                        votos[i+1]:= aux;
+                    Fin_Si;
+                Fin_Para;
+            Fin_Para;
+        Fin_Sub;
+                        
+        Procedimiento Registrar_Votos() es
+            Escribir("Ingrese su DNI");
+            leer(DNIE);        
+            //Verificar si esta el DNI esta en la lista
+            Si (prim <> nil) entonces
+                p:=Prim;
+                a:=nil;
+                Mientras (*p.prox<>nil) y (DNIE<>*p.DNI) hacer
+                    p:=*p.prox;
+                Fin_Mientras;
+                Si (DNIE=*p.DNI) entonces
+                    Esc("Usted ya ha votado");
+                Sino
+                    Nuevo(q);
+                    *q.DNI:=DNIE;
+                    *q.prox:=nil;
+                    *p.prox:=q;
+                    Votar();
+                Fin_Sino;
+            Sino
+                Nuevo(q);
+                *q.DNI:=DNIE;
+                *q.prox:=nil;
+                prim:=q;
+                Votar();
+            Fin_Sino;
+        fin_Sub;
+        
+        Procedimiento Votar() es
+            esc("Ingrese un candidato");
+            leer(i);
+            votos[i].cantVotos:= votos[i].cantVotos + 1;
+            esc("¡Su voto ha sido registrado!");
+        fin_Sub;
+
+        Procedimiento Borrarvotantes() es
+            p:=Prim;
+            Si (p = nill) entonces
+                Escribir('Ningun estudiante fue a votar.');
+            Sino
+                Mientras (p <> nil) hacer
+                    q:=p;
+                    p:=*q.prox;
+                    Disponer(q);
+                Fin_Mientras
+            FinSi
+        Fin_Procedimiento;
+
+        Procedimiento Ranking_votos() es
+            ordenarArreglo();
+            Escribir('');
+            Escribir('Las votaciones ya han finalizado. El ranking de votos quedo de la siguiente forma: ');
+            Escribir('');
+            Escribir('       ___________________________________________________________________________ ');
+            Escribir('      |                                                                           |');
+            Escribir('      |                             RANKING DE VOTOS                              |');
+            Escribir('      |___________________________________________________________________________|');
+            Escribir('      |                                                                           |');
+            Escribir('      |  1° ',votos[1].partido,'          N° de votos: ',votos[1].cantVotos,'     |');
+            Escribir('      |  2° ',votos[2].partido,'          N° de votos: ',votos[2].cantVotos,'     |');
+            Escribir('      |  3° ',votos[3].partido,'          N° de votos: ',votos[3].cantVotos,'     |');
+            Escribir('      |  4° ',votos[4].partido,'          N° de votos: ',votos[4].cantVotos,'     |');
+            Escribir('      |___________________________________________________________________________|');
+            Escribir('');
+        Fin_Sub;
+
+    Algoritmo
+        Prim:=nill;
+        Para i:=1 hasta 4 hacer
+            votos[i].cantVotos:=0;
+        Fin_Para;
+        votos[1].partido:="Lista Celeste y Blanca";
+        votos[2].partido:="Lista Los futuros Graduados";
+        votos[3].partido:="Lista Recursantes";
+        votos[4].partido:="Lista Accion Estudiantil";
+        GetDate(Dia,Mes,Anio);
+        Time(hora);
+        Mientras (hora > 7) y (hora < 21) hacer
+            Escribir(' _______________________________ ');
+            Escribir('|                               |');
+            Escribir('|       Elija una opcion:       |');
+            Escribir('|_______________________________|');
+            Escribir('|                               |');
+            Escribir('|  1. Ver listas de candidatos  |');
+            Escribir('|  2. Votar por un candidato    |');
+            Escribir('|_______________________________|');
+            Escribir('');
+            Escribir('');
+            Leer(Opcion);
+            Segun Opcion hacer
+                =1: Ver_Listas();
+                =2: Registrar_Votos();
+                Otro: Escribir('Opcion ingresada incorrecta.');
+            Fin_Segun;
+        Fin_Mientras;
+        Si hora < 7 entonces
+            Escribir('No se permite votar fuera de la franja horaria establecida.');
+        Fin_Si;
+        Si (hora > 20) entonces
+            Escribir('No se permite votar fuera de la franja horaria establecida.');
+            Ranking_votos();
+        Fin_Si;
+        Borrarvotantes();
+Fin_Algoritmo.
+            
+        //lista
+        //arreglos
+        //------------------------------------
+        //°El usuario ingresa el DNI
+        //°Verificar si esta el DNI esta en la lista
+        //°Si no esta, dejas que vote
+        //°añadir DNI a lista
+        //°contar voto en el vector;
+        //°mostrar ranking luego que todos voten
+        //°listas
