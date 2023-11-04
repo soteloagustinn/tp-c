@@ -4,8 +4,8 @@ Algoritmo tpC es
             DNI:N(8);
             prox: puntero a voto;
         Fin_Reg;
-        p,q: puntero a voto;
-        p,i,aux: N(1);
+        p1,q, prim: puntero a voto;
+        p,i,aux: entero;
         DNIE: N(8);
         lista = registro
             partido: AN(30);
@@ -14,7 +14,6 @@ Algoritmo tpC es
         votos : arreglo[1..4] de lista;
         pos: 1..4;
         opcion: 1..3;
-        i: entero;
         Dia: 1..31;
         Mes: 1..12;
         Anio: N(4);
@@ -98,18 +97,17 @@ Algoritmo tpC es
             leer(DNIE);        
             //Verificar si esta el DNI esta en la lista
             Si (prim <> nil) entonces
-                p:=Prim;
-                a:=nil;
-                Mientras (*p.prox<>nil) y (DNIE<>*p.DNI) hacer
-                    p:=*p.prox;
+                p1:=Prim;
+                Mientras (*p1.prox<>nil) y (DNIE<>*p1.DNI) hacer
+                    p1:=*p1.prox;
                 Fin_Mientras;
-                Si (DNIE=*p.DNI) entonces
+                Si (DNIE=*p1.DNI) entonces
                     Esc("Usted ya ha votado");
                 Sino
                     Nuevo(q);
                     *q.DNI:=DNIE;
                     *q.prox:=nil;
-                    *p.prox:=q;
+                    *p1.prox:=q;
                     Votar();
                 Fin_Sino;
             Sino
@@ -160,7 +158,7 @@ Algoritmo tpC es
         Fin_Sub;
 
     Algoritmo
-        Prim:=nill;
+        Prim:=nil;
         Para i:=1 hasta 4 hacer
             votos[i].cantVotos:=0;
         Fin_Para;
